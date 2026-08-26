@@ -112,5 +112,5 @@ const CONFIG = {
 Python 3 standard library.
 
 # License
-CC0
-
+source code:CC0
+audio files:Toby Fox
