@@ -28,6 +28,8 @@ This repository contains the game code only. audio files are not included and mu
 4. The server starts at http://127.0.0.1:1997 and opens your browser.
 5. Press Ctrl+C to stop.
 
+For PC, just run quiz.exe
+
 ## File Structure
 
 .
