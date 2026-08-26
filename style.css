@@ -16,6 +16,57 @@ body {
     margin: 0;
     font-size: 14px;
     color: #ffffff;
+    padding-top: 70px;
+}
+
+#topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    z-index: 999;
+    border-bottom: 2px solid #ffffff;
+}
+
+#logo-container {
+    display: flex;
+    align-items: center;
+}
+#top-logo {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+}
+
+#lang-switch {
+    display: flex;
+    gap: 8px;
+}
+#lang-switch .lang-btn {
+    background: transparent;
+    border: 2px solid #ffffff;
+    color: #ffffff;
+    padding: 6px 14px;
+    font-family: inherit;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 0;
+    transition: 0.2s;
+}
+#lang-switch .lang-btn:hover {
+    background: #ffffff;
+    color: #1a2639;
+}
+#lang-switch .lang-btn.active {
+    background: #ffffff;
+    color: #1a2639;
 }
 
 .container {
@@ -99,8 +150,6 @@ header h1 {
     text-shadow: 1px 1px 0 #000000;
 }
 
-.game-area {
-}
 .question-box {
     background: transparent;
     padding: 10px 0;
