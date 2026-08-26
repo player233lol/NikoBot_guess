@@ -3,47 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="ui/icon.png" type="image/png">
+    <link rel="icon" href="data/ui/icon.png" type="image/png">
     <title>ITS TV TIME</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div id="topbar">
+        <div id="logo-container">
+            <img src="data/ui/logo.png" alt="Logo" id="top-logo">
+        </div>
+        <div id="lang-switch">
+            <button class="lang-btn" data-lang="en">EN</button>
+            <button class="lang-btn" data-lang="zh">中文</button>
+            <button class="lang-btn" data-lang="ja">日本語</button>
+        </div>
+    </div>
+
     <div class="container">
         <div class="chat-box">
             <header>
-                <h1>QUIZ!!!</h1>
+                <h1 data-i18n="title">QUIZ!!!</h1>
             </header>
             <section class="config">
                 <div class="row">
-                    <label>分类：</label>
+                    <label data-i18n="label_category">分类：</label>
                     <select id="categorySelect">
-                        <option value="os">Oneshot</option>
-                        <option value="dr">Deltarune</option>
-                        <option value="ut">Undertale</option>
+                        <option value="dr" data-i18n="opt_dr">Deltarune</option>
+                        <option value="ut" data-i18n="opt_ut">Undertale</option>
                     </select>
-                    <label>模式：</label>
+                    <label data-i18n="label_mode">模式：</label>
                     <select id="modeSelect">
-                        <option value="dialogue">台词</option>
-                        <option value="music">音乐</option>
+                        <option value="dialogue" data-i18n="opt_dialogue">台词</option>
+                        <option value="music" data-i18n="opt_music">音乐</option>
                     </select>
-                    <button id="startBtn">开始游戏</button>
+                    <button id="startBtn" data-i18n="btn_start">开始游戏</button>
                 </div>
             </section>
             <div class="status-bar">
-                <span id="attemptInfo">已猜 0 次</span>
-                <span id="hintCount">提示剩余 3 次</span>
-                <span id="timer">60s</span>
+                <span id="attemptInfo" data-i18n="status_attempts">已猜 0 次</span>
+                <span id="hintCount" data-i18n="status_hints">提示剩余 3 次</span>
+                <span id="timer" data-i18n="status_timer">60s</span>
             </div>
             <section class="game-area">
                 <div class="question-box" id="questionBox">
                     <div class="question-content" id="questionContent">
-                        <p class="placeholder">点击「开始游戏」启动一局</p>
+                        <p class="placeholder" data-i18n="placeholder_question">点击「开始游戏」启动一局</p>
                     </div>
                     <div id="audioPlayer" style="display:none; margin-top:12px;">
                         <audio id="musicPlayer" style="display:none;"></audio>
-                        <button id="playPauseBtn">▶ 播放片段</button>
-                        <p class="hint-text" style="margin-top:8px;">播放片段，猜猜是哪首曲子？</p>
+                        <button id="playPauseBtn" data-i18n="btn_play">▶ 播放片段</button>
+                        <p class="hint-text" data-i18n="hint_audio">播放片段，猜猜是哪首曲子？</p>
                     </div>
                 </div>
                 <div class="feedback" id="feedback">
@@ -54,13 +64,16 @@
         </div>
         <div class="input-wrapper">
             <div class="input-area">
-                <input type="text" id="answerInput" placeholder="输入你的答案..." disabled>
-                <button id="submitBtn" disabled>提交</button>
-                <button id="hintBtn" disabled>提示</button>
-                <button id="endGameBtn" style="display:none;">结束游戏</button>
+                <input type="text" id="answerInput" placeholder="" disabled data-i18n-placeholder="input_placeholder">
+                <button id="submitBtn" disabled data-i18n="btn_submit">提交</button>
+                <button id="hintBtn" disabled data-i18n="btn_hint">提示</button>
+                <button id="endGameBtn" style="display:none;" data-i18n="btn_end">结束游戏</button>
             </div>
         </div>
     </div>
+
+    <audio id="bgMusic" src="data/ui/music.ogg" loop preload="auto" style="display:none;"></audio>
+
     <script src="script.js"></script>
 </body>
 </html>
