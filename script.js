@@ -41,6 +41,10 @@ const LANG = {
         feedback_music_guess: 'Listen and guess the track name.',
         feedback_clip_finished: 'Clip finished, click to replay.',
         hint_prefix: 'Hint: {hint}',
+        hint_first_letter: 'The first letter is {letter}',
+        hint_contains_letter: 'The name contains the letter {letter}',
+        hint_no_letters: 'No letters in the answer.',
+        error_duration: 'Could not get audio duration.',
         game_over_timeout: 'Time\'s up! Answer: {answer}',
         game_over_out_of_chances: 'Out of chances. Answer: {answer}',
     },
@@ -86,6 +90,10 @@ const LANG = {
         feedback_music_guess: '听片段猜曲名。',
         feedback_clip_finished: '片段播放完毕，点击可重听。',
         hint_prefix: '提示：{hint}',
+        hint_first_letter: '该名字的第一个字母是 {letter}',
+        hint_contains_letter: '该名字中包含字母 {letter}',
+        hint_no_letters: '答案中没有字母。',
+        error_duration: '无法获取音频时长。',
         game_over_timeout: '时间到！答案是：{answer}',
         game_over_out_of_chances: '机会用尽，答案是：{answer}',
     },
@@ -131,6 +139,10 @@ const LANG = {
         feedback_music_guess: '曲名を当ててね。',
         feedback_clip_finished: '再生終了、もう一度再生できるよ。',
         hint_prefix: 'ヒント：{hint}',
+        hint_first_letter: '最初の文字は {letter} だよ',
+        hint_contains_letter: '答えに {letter} が含まれてるよ',
+        hint_no_letters: '答えにアルファベットがないよ。',
+        error_duration: '音声の長さが取得できませんでした。',
         game_over_timeout: '時間切れ！答え：{answer}',
         game_over_out_of_chances: 'チャンス切れ。答え：{answer}',
     }
@@ -344,10 +356,9 @@ class Game {
         const arr = Array.from(letters);
         const chosen = arr[Math.floor(Math.random() * arr.length)];
         const firstChar = this.answer.match(/[a-zA-Z]/)?.[0]?.toUpperCase() || null;
-        let hintMsg = (chosen === firstChar) ? `该名字的第一个字母是 ${chosen}` : `该名字中包含字母 ${chosen}`;
+        const isFirst = (chosen === firstChar);
         this.hintUsed++;
-        this.hintHistory.push(hintMsg);
-        return hintMsg;
+        return { letter: chosen, isFirst };
     }
 
     finish(winner = null) {
@@ -595,7 +606,7 @@ async function loadAndPlayAudio(game) {
     function playFixedClip() {
         if (isClipPlaying) return;
         if (!totalDuration || totalDuration <= 0) {
-            dom.feedbackMsg.textContent = '无法获取音频时长。';
+            dom.feedbackMsg.textContent = t('error_duration');
             return;
         }
         fadeBgMusic(0, 100);
@@ -614,7 +625,7 @@ async function loadAndPlayAudio(game) {
     player.onloadedmetadata = () => {
         totalDuration = player.duration;
         if (!totalDuration || totalDuration <= 0) {
-            dom.feedbackMsg.textContent = '无法获取音频时长。';
+            dom.feedbackMsg.textContent = t('error_duration');
             return;
         }
         fixedClipLen = Math.min(5, totalDuration);
@@ -692,12 +703,18 @@ function handleHint() {
         dom.feedbackMsg.textContent = t('feedback_hint_used_up');
         return;
     }
-    const hint = currentGame.getHint();
-    if (!hint) {
+    const hintInfo = currentGame.getHint();
+    if (!hintInfo) {
         dom.feedbackMsg.textContent = t('feedback_no_letters');
         return;
     }
-    dom.hintHistory.textContent = t('hint_prefix', { hint: hint });
+    let hintMsg;
+    if (hintInfo.isFirst) {
+        hintMsg = t('hint_first_letter', { letter: hintInfo.letter });
+    } else {
+        hintMsg = t('hint_contains_letter', { letter: hintInfo.letter });
+    }
+    dom.hintHistory.textContent = t('hint_prefix', { hint: hintMsg });
     dom.hintCount.textContent = t('status_hints', { count: CONFIG.MAX_HINTS - currentGame.hintUsed });
     dom.feedbackMsg.textContent = t('feedback_hint_shown');
 }
